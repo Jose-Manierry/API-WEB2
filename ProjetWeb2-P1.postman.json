@@ -1,0 +1,436 @@
+{
+	"info": {
+		"_postman_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+		"name": "ProjetWeb2 - Projeto P1",
+		"description": "Collection completa da API NodeJS com Express e TypeORM",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080/api"
+		}
+	],
+	"item": [
+		{
+			"name": "Health Check (Home)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080"
+				}
+			}
+		},
+		{
+			"name": "Situations",
+			"item": [
+				{
+					"name": "Listar Situations (paginado)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/situations?page=1&limit=10",
+							"host": ["{{base_url}}"],
+							"path": ["situations"],
+							"query": [
+								{ "key": "page", "value": "1" },
+								{ "key": "limit", "value": "10" }
+							]
+						}
+					}
+				},
+				{
+					"name": "Buscar Situation por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/situations/1",
+							"host": ["{{base_url}}"],
+							"path": ["situations", "1"]
+						}
+					}
+				},
+				{
+					"name": "Criar Situation",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nameSituation\": \"Nova Situação\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/situations",
+							"host": ["{{base_url}}"],
+							"path": ["situations"]
+						}
+					}
+				},
+				{
+					"name": "Atualizar Situation",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nameSituation\": \"Situação Atualizada\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/situations/1",
+							"host": ["{{base_url}}"],
+							"path": ["situations", "1"]
+						}
+					}
+				},
+				{
+					"name": "Deletar Situation",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/situations/1",
+							"host": ["{{base_url}}"],
+							"path": ["situations", "1"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Listar Users (paginado)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users?page=1&limit=10",
+							"host": ["{{base_url}}"],
+							"path": ["users"],
+							"query": [
+								{ "key": "page", "value": "1" },
+								{ "key": "limit", "value": "10" }
+							]
+						}
+					}
+				},
+				{
+					"name": "Buscar User por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users/1",
+							"host": ["{{base_url}}"],
+							"path": ["users", "1"]
+						}
+					}
+				},
+				{
+					"name": "Criar User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Novo Usuário\",\n    \"email\": \"novo@email.com\",\n    \"password\": \"123456\",\n    \"situationId\": 1\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/users",
+							"host": ["{{base_url}}"],
+							"path": ["users"]
+						}
+					}
+				},
+				{
+					"name": "Atualizar User",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Usuário Atualizado\",\n    \"email\": \"atualizado@email.com\",\n    \"password\": \"123456\",\n    \"situationId\": 1\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/users/1",
+							"host": ["{{base_url}}"],
+							"path": ["users", "1"]
+						}
+					}
+				},
+				{
+					"name": "Deletar User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users/1",
+							"host": ["{{base_url}}"],
+							"path": ["users", "1"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Product Categories",
+			"item": [
+				{
+					"name": "Listar Product Categories (paginado)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/product-categories?page=1&limit=10",
+							"host": ["{{base_url}}"],
+							"path": ["product-categories"],
+							"query": [
+								{ "key": "page", "value": "1" },
+								{ "key": "limit", "value": "10" }
+							]
+						}
+					}
+				},
+				{
+					"name": "Buscar Product Category por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/product-categories/1",
+							"host": ["{{base_url}}"],
+							"path": ["product-categories", "1"]
+						}
+					}
+				},
+				{
+					"name": "Criar Product Category",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Nova Categoria\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/product-categories",
+							"host": ["{{base_url}}"],
+							"path": ["product-categories"]
+						}
+					}
+				},
+				{
+					"name": "Atualizar Product Category",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Categoria Atualizada\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/product-categories/1",
+							"host": ["{{base_url}}"],
+							"path": ["product-categories", "1"]
+						}
+					}
+				},
+				{
+					"name": "Deletar Product Category",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/product-categories/1",
+							"host": ["{{base_url}}"],
+							"path": ["product-categories", "1"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Product Situations",
+			"item": [
+				{
+					"name": "Listar Product Situations (paginado)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/product-situations?page=1&limit=10",
+							"host": ["{{base_url}}"],
+							"path": ["product-situations"],
+							"query": [
+								{ "key": "page", "value": "1" },
+								{ "key": "limit", "value": "10" }
+							]
+						}
+					}
+				},
+				{
+					"name": "Buscar Product Situation por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/product-situations/1",
+							"host": ["{{base_url}}"],
+							"path": ["product-situations", "1"]
+						}
+					}
+				},
+				{
+					"name": "Criar Product Situation",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Nova Situação de Produto\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/product-situations",
+							"host": ["{{base_url}}"],
+							"path": ["product-situations"]
+						}
+					}
+				},
+				{
+					"name": "Atualizar Product Situation",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Situação Atualizada\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/product-situations/1",
+							"host": ["{{base_url}}"],
+							"path": ["product-situations", "1"]
+						}
+					}
+				},
+				{
+					"name": "Deletar Product Situation",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/product-situations/1",
+							"host": ["{{base_url}}"],
+							"path": ["product-situations", "1"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Listar Products (paginado)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/products?page=1&limit=10",
+							"host": ["{{base_url}}"],
+							"path": ["products"],
+							"query": [
+								{ "key": "page", "value": "1" },
+								{ "key": "limit", "value": "10" }
+							]
+						}
+					}
+				},
+				{
+					"name": "Buscar Product por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/products/1",
+							"host": ["{{base_url}}"],
+							"path": ["products", "1"]
+						}
+					}
+				},
+				{
+					"name": "Criar Product",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Novo Produto\",\n    \"productSituationId\": 1,\n    \"productCategoryId\": 1\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/products",
+							"host": ["{{base_url}}"],
+							"path": ["products"]
+						}
+					}
+				},
+				{
+					"name": "Atualizar Product",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Produto Atualizado\",\n    \"productSituationId\": 2,\n    \"productCategoryId\": 2\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/products/1",
+							"host": ["{{base_url}}"],
+							"path": ["products", "1"]
+						}
+					}
+				},
+				{
+					"name": "Deletar Product",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/products/1",
+							"host": ["{{base_url}}"],
+							"path": ["products", "1"]
+						}
+					}
+				}
+			]
+		}
+	]
+}

@@ -6,7 +6,8 @@ export class AddSlugToProducts1779846314810 implements MigrationInterface {
         await queryRunner.addColumn("products", new TableColumn({
             name: "slug",
             type: "varchar",
-            isNullable: false,
+            length: "255",
+            isNullable: true,
             isUnique: true
         }));
 

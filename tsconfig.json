@@ -11,6 +11,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "resolveJsonModule": true,
+    "ignoreDeprecations": "5.0",
     "moduleResolution": "node"
   }
 }

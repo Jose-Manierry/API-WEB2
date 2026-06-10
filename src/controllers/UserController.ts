@@ -3,10 +3,10 @@ import { UserService } from "../services/UserService";
 import { verifyToken } from "../middlewares/authMiddleware";
 import bcrypt from "bcryptjs";
 import * as yup from "yup";
-import { parse } from "path";
 import { AppDataSource } from "../data-source";
 import { User } from "../entities/User";
 import { PaginationService } from "../services/PaginationService";
+import { FindOptionsOrder } from "typeorm";
 
 const router = Router();
 
@@ -17,9 +17,14 @@ router.get("/users", verifyToken, async (req: Request, res: Response) => {
         const page = Number(req.query.page) || 1;
         const limit = Number(req.query.limit) || 10;
 
-        const result = await PaginationService.paginate({ userRepository, page, limit, order: { id: "DESC" }, relations: ["situation"] });
+        const result = await PaginationService.paginate(
+            userRepository,
+            page,
+            limit,
+            { id: "DESC" } as FindOptionsOrder<User>,  // cast explícito
+            ["situation"]
+);
         return res.json(result);
-        return;
     } catch (error) {
         return res.status(500).json({ error: "Erro ao listar usuários." });
     }
@@ -31,7 +36,7 @@ router.get("/users/:id", verifyToken, async (req: Request, res: Response) => {
         const UserRepository = AppDataSource.getRepository(User);
         const user = await UserRepository.findOne({
             relations: ["situation"],
-            where: { id: parseInt(id) }
+            where: { id: Number(id) }
         });
 
         if (!user) {
@@ -70,9 +75,6 @@ router.post("/users", verifyToken, async (req: Request, res: Response) => {
         // Valida os dados ANTES de criptografar (para validar a senha real)
         await schema.validate(data, { abortEarly: false });
 
-        // Criptografia com 10 rounds conforme solicitado
-        //data.password = await bcrypt.hash(data.password, 10);
-
         const user = await UserService.create(data);
         return res.status(201).json(user);
     } catch (error) {
@@ -83,7 +85,7 @@ router.post("/users", verifyToken, async (req: Request, res: Response) => {
     }
 });
 
-router.put("/users-password/:id", verifyToken, async (req: Request, res: Response) => {
+router.put("/users/:id", verifyToken, async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
 

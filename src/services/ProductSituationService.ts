@@ -28,6 +28,12 @@ export class ProductSituationService {
         };
     }
 
+    static async findByName(value: string) {
+        return await productSituationRepository.findOne({
+            where: { name: value }
+        });
+    }
+
     static async findById(id: number) {
         return await productSituationRepository.findOne({
             where: { id },

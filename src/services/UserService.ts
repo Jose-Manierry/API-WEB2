@@ -32,6 +32,11 @@ export class UserService {
         });
     }
 
+    static async findByEmail(email: string) {
+        const userRepository = AppDataSource.getRepository(User);
+        return await userRepository.findOneBy({ email });
+    }
+
     static async create(data: UserCreateData) {
         const userRepository = AppDataSource.getRepository(User);
         const user = userRepository.create(data);

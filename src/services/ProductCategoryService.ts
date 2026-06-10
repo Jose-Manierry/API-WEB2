@@ -28,6 +28,12 @@ export class ProductCategoryService {
         };
     }
 
+    static async findByName(value: string) {
+        return await productCategoryRepository.findOne({
+            where: { name: value }
+        });
+    }
+
     static async findById(id: number) {
         return await productCategoryRepository.findOne({
             where: { id },

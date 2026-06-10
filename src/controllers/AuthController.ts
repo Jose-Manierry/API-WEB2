@@ -6,7 +6,7 @@ import { User } from "../entities/User";
 import crypto from "crypto";
 import nodemailer from "nodemailer";
 import { verifyToken } from "../middlewares/authMiddleware";
-
+import bcrypt from "bcrypt";
 
 const router = express.Router();
 
@@ -14,14 +14,12 @@ const router = express.Router();
 
 router.post("/", async(req: Request, res: Response) => {
     try {
-            const { email, password } = req.body;
-            if (email || password) {
-                res.status(400).json({
-                    message: "E-mail e senha são obrigatórios.",
-                });
-                return;
-            }
-
+        const { email, password } = req.body;
+        if (!email || !password) {
+            return res.status(400).json({
+                message: "E-mail e senha são obrigatórios.",
+            });
+        }
 
 
             const authService = new AuthService();
@@ -56,7 +54,7 @@ router.get("/validate-token", verifyToken, async (req: Request, res: Response) =
 router.post("/new-users", async (req: Request, res: Response) => {
     try {
 
-        var data = req.body;
+        const data = req.body;
 
         const schema = yup.object().shape({
             name: yup.string().required("O nome é obrigatório.").min(3, "O nome deve conter no mínimo 3 caracteres."),
@@ -70,22 +68,22 @@ router.post("/new-users", async (req: Request, res: Response) => {
 
         const userRepository = AppDataSource.getRepository(User);
 
-        const existingUser = await userRepository.findOneBy({ 
-            where: { email: data.email }  
-        });
+        const existingUser = await userRepository.findOneBy({ email: data.email });
 
         if (existingUser) {
-            res.status(400).json({
+            return res.status(400).json({
                 message: "Este e-mail já está cadastrado."
             });
-            return;
         }
 
-        userRepository.create(data);
-        const newUser = await userRepository.save(userRepository.create(data));
-        res.status(201).json({
+        const userToCreate = userRepository.create(data);
+        const newUser = await userRepository.save(userToCreate);
+        
+        const userResponse = { ...newUser };
+        (newUser as any).password = undefined;
+
+        return res.status(201).json({
             message: "Usuário criado com sucesso.",
-            user: newUser
         });
     } catch (error) {
         if (error instanceof yup.ValidationError) {
@@ -104,34 +102,32 @@ router.post("/new-users", async (req: Request, res: Response) => {
     
 router.post("/recover-password", async (req: Request, res: Response) => {
     try {
-        var data = req.body;
+        const data = req.body;
 
         const schema = yup.object().shape({
             urlRecoverPassword: yup.string().required("A URL de recuperação de senha é obrigatória."),
             email: yup.string().email("Formato de e-mail inválido.").required("O e-mail é obrigatório."),
-          });
+        });
 
-          await schema.validate(data, { abortEarly: false });
+        await schema.validate(data, { abortEarly: false });
 
-          const userRepository = AppDataSource.getRepository(User);
+        const userRepository = AppDataSource.getRepository(User);
+        const user = await userRepository.findOneBy({ email: data.email });
 
-          const user = await userRepository.findOneBy({ email: data.email, recoverPassword: data.recoverPassword });
-
-          if(!user){
-            // Aqui você pode implementar a lógica para enviar um e-mail de recuperação de senha
-            // utilizando a URL fornecida em data.urlRecoverPassword
-            res.status(404).json({
-                message: "A chave não é válida."
+        if(!user){
+            return res.status(404).json({
+                message: "E-mail não encontrado."
             });
-            return;
-          }
-
+        }
+/*
           res.status(200).json({
             message: "A chave recuperar senha e valida ",
             
         });
-        return;
+        
 
+          user.recoverPassword = crypto.randomBytes(32).toString("hex");
+*/
           user.recoverPassword = crypto.randomBytes(32).toString("hex");
           await userRepository.save(user);
 
@@ -146,7 +142,7 @@ router.post("/recover-password", async (req: Request, res: Response) => {
                 }
             });
 
-            var message_content = {
+            const message_content = {
                 from: process.env.EMAIL_FROM,
                 to: data.email,
                 subject: 'Recuperar Senha',
@@ -171,7 +167,7 @@ router.post("/recover-password", async (req: Request, res: Response) => {
                 o preenchimento de senhas e informações ...`
             }
 
-            transporter.sendMail({message_content, function(err){
+            transporter.sendMail(message_content, function(err){
                 if(err){
                     console.log("erro ao enviar e-mail", err);
                         res.status(200).json({
@@ -198,7 +194,7 @@ router.post("/recover-password", async (req: Request, res: Response) => {
             });
 
 
-    }catch{error: any}{
+    } catch (error: any) {
         if (error instanceof yup.ValidationError) {
             res.status(400).json({
                 message: error.errors
@@ -212,53 +208,47 @@ router.post("/recover-password", async (req: Request, res: Response) => {
         });
     }
 
-    router.put("/update-password", async (req: Request, res: Response) => {
-        try {
-            var data = req.body;
+});
 
-            const schema = yup.object().shape({
-                recoverPassword: yup.string().required("A chave de recuperação de senha é obrigatória."),
-                email: yup.string().email("Formato de e-mail inválido.").required("O e-mail é obrigatório."),
-                Password: yup.string().required("A nova senha é obrigatória.").min(6, "A nova senha deve conter no mínimo 6 caracteres.")
-            });
+router.put("/update-password", async (req: Request, res: Response) => {
+    try {
+        const data = req.body;
 
-            await schema.validate(data, { abortEarly: false });
-            const userRepository = AppDataSource.getRepository(User);
-            const user = await userRepository.findOneBy({ email: data.email, recoverPassword: data.recoverPassword });
+        const schema = yup.object().shape({
+            recoverPassword: yup.string().required("A chave de recuperação de senha é obrigatória."),
+            email: yup.string().email("Formato de e-mail inválido.").required("O e-mail é obrigatório."),
+            password: yup.string().required("A nova senha é obrigatória.").min(6, "A nova senha deve conter no mínimo 6 caracteres.")
+        });
 
-            if(!user){
-                res.status(404).json({
-                    message: "A chave de recuperação de senha não é válida."
-                });
-                return;
-            }
+        await schema.validate(data, { abortEarly: false });
+        const userRepository = AppDataSource.getRepository(User);
+        const user = await userRepository.findOneBy({ email: data.email, recoverPassword: data.recoverPassword });
 
-            data.recoverPassword = null;
-
-            userRepository.merge(user, data);
-
-            await userRepository.save(user);
-
-            res.status(200).json({
-                message: "Senha atualizada com sucesso."
-            });
-            return;
-
-
-
-        }catch (error: any) {
-            if (error instanceof yup.ValidationError) {
-                res.status(400).json({
-                    message: error.errors
-                });
-                return;
-            }
-            res.status(500).json({
-                message: "Erro ao processar recuperação de senha."
+        if(!user){
+            return res.status(404).json({
+                message: "A chave de recuperação de senha não é válida."
             });
         }
-    });
 
+        user.password = await bcrypt.hash(data.password, 10);
+        user.recoverPassword = String(null);
+
+        await userRepository.save(user);
+
+        return res.status(200).json({
+            message: "Senha atualizada com sucesso."
+        });
+
+    } catch (error: any) {
+        if (error instanceof yup.ValidationError) {
+            return res.status(400).json({
+                message: error.errors
+            });
+        }
+        return res.status(500).json({
+            message: "Erro ao processar atualização de senha."
+        });
+    }
 });
 
 

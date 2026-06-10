@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn, BeforeInsert } from "typeorm";
 import { Situation } from "./Situation";
 import bcrypt from "bcrypt";
+import { BeforeUpdate } from "typeorm";
 
 @Entity("users")
 export class User {
@@ -41,7 +42,6 @@ export class User {
     async comparePassword(password: string): Promise<boolean> {
         return bcrypt.compare(password, this.password);
     }
-
 
 
 }

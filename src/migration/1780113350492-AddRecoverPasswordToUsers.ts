@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
+import { MigrationInterface, QueryRunner, TableColumn } from "typeorm";
 
 export class AddRecoverPasswordToUsers1780113350492 implements MigrationInterface {
 
@@ -10,7 +10,7 @@ export class AddRecoverPasswordToUsers1780113350492 implements MigrationInterfac
             isNullable: true,
         }));
 
-        await queryRunner.query(`ALTER TABLE users ADD CONSTRAINT recover_password_not_null CHECK (recoverPassword IS NOT NULL) AFTER email`);
+
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

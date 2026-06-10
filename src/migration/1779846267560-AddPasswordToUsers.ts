@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
+import { MigrationInterface, QueryRunner, TableColumn } from "typeorm";
 
 export class AddPasswordToUsers1779846267560 implements MigrationInterface {
 

@@ -8,7 +8,11 @@
 	"variable": [
 		{
 			"key": "base_url",
-			"value": "http://localhost:8080/api"
+			"value": "{{host_url}}/api"
+		},
+		{
+			"key": "host_url",
+			"value": "http://localhost:8080"
 		}
 	],
 	"item": [
@@ -18,14 +22,107 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080"
+					"raw": "{{host_url}}/",
+					"host": ["{{host_url}}"],
+					"path": [""]
 				}
 			}
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"admin@example.com\",\n    \"password\": \"admin123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth",
+							"host": ["{{base_url}}"],
+							"path": ["auth"]
+						}
+					}
+				},
+				{
+					"name": "Register New User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Novo Usuário Teste\",\n    \"email\": \"novousuario@example.com\",\n    \"password\": \"senha123\",\n    \"situationId\": 1\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/new-users",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "new-users"]
+						}
+					}
+				},
+				{
+					"name": "Validate Token",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <YOUR_JWT_TOKEN>",
+								"type": "text",
+								"description": "Token JWT obtido no login"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/auth/validate-token",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "validate-token"]
+						}
+					}
+				},
+				{
+					"name": "Recover Password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"novousuario@example.com\",\n    \"urlRecoverPassword\": \"http://localhost:3000/reset-password\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/recover-password",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "recover-password"]
+						}
+					}
+				},
+				{
+					"name": "Update Password",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"novousuario@example.com\",\n    \"recoverPassword\": \"<KEY_FROM_EMAIL>\",\n    \"password\": \"novaSenha123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/update-password",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "update-password"]
+						}
+					}
+				}
+			]
 		},
 		{
 			"name": "Situations",
@@ -36,12 +133,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/situations?page=1&limit=10",
+							"raw": "{{base_url}}/situations?page=1&limit=5",
 							"host": ["{{base_url}}"],
 							"path": ["situations"],
 							"query": [
 								{ "key": "page", "value": "1" },
-								{ "key": "limit", "value": "10" }
+								{ "key": "limit", "value": "5" }
 							]
 						}
 					}
@@ -117,12 +214,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/users?page=1&limit=10",
+							"raw": "{{base_url}}/users?page=1&limit=5",
 							"host": ["{{base_url}}"],
 							"path": ["users"],
 							"query": [
 								{ "key": "page", "value": "1" },
-								{ "key": "limit", "value": "10" }
+								{ "key": "limit", "value": "5" }
 							]
 						}
 					}
@@ -198,12 +295,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/product-categories?page=1&limit=10",
+							"raw": "{{base_url}}/product-categories?page=1&limit=5",
 							"host": ["{{base_url}}"],
 							"path": ["product-categories"],
 							"query": [
 								{ "key": "page", "value": "1" },
-								{ "key": "limit", "value": "10" }
+								{ "key": "limit", "value": "5" }
 							]
 						}
 					}
@@ -279,12 +376,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/product-situations?page=1&limit=10",
+							"raw": "{{base_url}}/product-situations?page=1&limit=5",
 							"host": ["{{base_url}}"],
 							"path": ["product-situations"],
 							"query": [
 								{ "key": "page", "value": "1" },
-								{ "key": "limit", "value": "10" }
+								{ "key": "limit", "value": "5" }
 							]
 						}
 					}
@@ -360,12 +457,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/products?page=1&limit=10",
+							"raw": "{{base_url}}/products?page=1&limit=5",
 							"host": ["{{base_url}}"],
 							"path": ["products"],
 							"query": [
 								{ "key": "page", "value": "1" },
-								{ "key": "limit", "value": "10" }
+								{ "key": "limit", "value": "5" }
 							]
 						}
 					}

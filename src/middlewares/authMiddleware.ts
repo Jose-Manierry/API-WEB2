@@ -31,11 +31,13 @@ export function verifyToken(req: AuthRequest, res: Response, next: NextFunction)
     }
 
     try {
-        const secret = process.env.JWT_SECRET || 'default_secret';
-        const decoded = jwt.verify(token, secret) as { id: number };
-        req.user = { id: decoded.id };
-        next();
-    } catch (error) {
-        res.status(401).json({ message: 'Token de autenticação inválido.' });
-    }
+    const secret = process.env.JWT_SECRET || 'default_secret';
+    console.log("SECRET USADO:", secret); // adicione essa linha
+    const decoded = jwt.verify(token, secret) as { id: number };
+    req.user = { id: decoded.id };
+    next();
+} catch (error) {
+    console.log("ERRO JWT:", error); // e essa
+    res.status(401).json({ message: 'Token de autenticação inválido.' });
+}
 }

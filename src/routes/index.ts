@@ -5,11 +5,13 @@ import productSituationRoutes from "./productSituationRoutes";
 import productRoutes from "./productRoutes";
 import testConnectController from "../controllers/testConnectController";
 import UserController from "../controllers/UserController";
+import authRoutes from "../controllers/AuthController";
 
 const router = Router();
 
-router.use("/", testConnectController); // Rota para testar a conexão com a API
-router.use("/", UserController); // O UserController agora define o prefixo /users internamente
+router.use("/", testConnectController);
+router.use("/auth", authRoutes);       // prefixo /auth adicionado
+router.use("/", UserController);
 
 router.use("/situations", situationRoutes);
 router.use("/product-categories", productCategoryRoutes);

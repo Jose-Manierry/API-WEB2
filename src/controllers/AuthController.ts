@@ -76,7 +76,10 @@ router.post("/new-users", async (req: Request, res: Response) => {
             });
         }
 
-        const userToCreate = userRepository.create(data);
+        const userToCreate = userRepository.create({
+            ...data,
+            password: await bcrypt.hash(data.password, 10)
+        });
         const newUser = await userRepository.save(userToCreate);
         
         const userResponse = { ...newUser };

@@ -3,13 +3,16 @@ import { MigrationInterface, QueryRunner, TableColumn } from "typeorm";
 export class AddPasswordToUsers1779846267560 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.addColumn("users", new TableColumn({
-            name: "password",
-            type: "varchar",
-            isNullable: false,
-        }));
+        const table = await queryRunner.getTable("users");
+        const passwordColumn = table?.findColumnByName("password");
 
-        await queryRunner.query(`ALTER TABLE users ADD CONSTRAINT password_not_null CHECK (password IS NOT NULL) AFTER email`);
+        if (!passwordColumn) {
+            await queryRunner.addColumn("users", new TableColumn({
+                name: "password",
+                type: "varchar",
+                isNullable: false,
+            }));
+        }
     }
 
     

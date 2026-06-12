@@ -1,7 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn, BeforeInsert } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn, BeforeInsert, BeforeUpdate } from "typeorm";
 import { Situation } from "./Situation";
-import bcrypt from "bcrypt";
-import { BeforeUpdate } from "typeorm";
+import bcrypt from "bcryptjs";
 
 @Entity("users")
 export class User {
@@ -18,8 +17,11 @@ export class User {
     @Column()
     password!: string;
 
-    @Column({ unique: true })
-    recoverPassword!: string;
+    @Column({ type: "varchar", length: 255, unique: true, nullable: true, default: null })
+    recoverPassword!: string | null;
+
+    @Column()
+    situationId!: number;
 
     @ManyToOne(() => Situation, (situation) => situation.users)
     @JoinColumn({ name: "situationId" })
@@ -34,7 +36,7 @@ export class User {
     @BeforeInsert()
     @BeforeUpdate()
     async hashPassword(): Promise<void> {
-        if (this.password) {
+        if (this.password && !this.password.startsWith("$2")) {
             this.password = await bcrypt.hash(this.password, 10);
         }
     }
@@ -42,6 +44,4 @@ export class User {
     async comparePassword(password: string): Promise<boolean> {
         return bcrypt.compare(password, this.password);
     }
-
-
 }

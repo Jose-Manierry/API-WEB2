@@ -15,519 +15,459 @@
 			"value": "http://localhost:8080"
 		}
 	],
-	"item": [
-		{
-			"name": "Health Check (Home)",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{host_url}}/",
-					"host": ["{{host_url}}"],
-					"path": [""]
-				}
-			}
-		},
-		{
-			"name": "Auth",
-			"item": [
-				{
-					"name": "Login User",
-					"request": {
-						"method": "POST",
-						"header": [
-							{ "key": "Content-Type", "value": "application/json" }
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"email\": \"admin@example.com\",\n    \"password\": \"admin123\"\n}"
-						},
-						"url": {
-							"raw": "{{base_url}}/auth",
-							"host": ["{{base_url}}"],
-							"path": ["auth"]
-						}
-					}
-				},
-				{
-					"name": "Register New User",
-					"request": {
-						"method": "POST",
-						"header": [
-							{ "key": "Content-Type", "value": "application/json" }
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"Novo Usuário Teste\",\n    \"email\": \"novousuario@example.com\",\n    \"password\": \"senha123\",\n    \"situationId\": 1\n}"
-						},
-						"url": {
-							"raw": "{{base_url}}/auth/new-users",
-							"host": ["{{base_url}}"],
-							"path": ["auth", "new-users"]
-						}
-					}
-				},
-				{
-					"name": "Validate Token",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer <YOUR_JWT_TOKEN>",
-								"type": "text",
-								"description": "Token JWT obtido no login"
-							}
-						],
-						"url": {
-							"raw": "{{base_url}}/auth/validate-token",
-							"host": ["{{base_url}}"],
-							"path": ["auth", "validate-token"]
-						}
-					}
-				},
-				{
-					"name": "Recover Password",
-					"request": {
-						"method": "POST",
-						"header": [
-							{ "key": "Content-Type", "value": "application/json" }
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"email\": \"novousuario@example.com\",\n    \"urlRecoverPassword\": \"http://localhost:3000/reset-password\"\n}"
-						},
-						"url": {
-							"raw": "{{base_url}}/auth/recover-password",
-							"host": ["{{base_url}}"],
-							"path": ["auth", "recover-password"]
-						}
-					}
-				},
-				{
-					"name": "Update Password",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{ "key": "Content-Type", "value": "application/json" }
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"email\": \"novousuario@example.com\",\n    \"recoverPassword\": \"<KEY_FROM_EMAIL>\",\n    \"password\": \"novaSenha123\"\n}"
-						},
-						"url": {
-							"raw": "{{base_url}}/auth/update-password",
-							"host": ["{{base_url}}"],
-							"path": ["auth", "update-password"]
-						}
-					}
-				}
-			]
-		},
-		{
-			"name": "Situations",
-			"item": [
-				{
-					"name": "Listar Situations (paginado)",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/situations?page=1&limit=5",
-							"host": ["{{base_url}}"],
-							"path": ["situations"],
-							"query": [
-								{ "key": "page", "value": "1" },
-								{ "key": "limit", "value": "5" }
-							]
-						}
-					}
-				},
-				{
-					"name": "Buscar Situation por ID",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/situations/1",
-							"host": ["{{base_url}}"],
-							"path": ["situations", "1"]
-						}
-					}
-				},
-				{
-					"name": "Criar Situation",
-					"request": {
-						"method": "POST",
-						"header": [
-							{ "key": "Content-Type", "value": "application/json" }
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"nameSituation\": \"Nova Situação\"\n}"
-						},
-						"url": {
-							"raw": "{{base_url}}/situations",
-							"host": ["{{base_url}}"],
-							"path": ["situations"]
-						}
-					}
-				},
-				{
-					"name": "Atualizar Situation",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{ "key": "Content-Type", "value": "application/json" }
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"nameSituation\": \"Situação Atualizada\"\n}"
-						},
-						"url": {
-							"raw": "{{base_url}}/situations/1",
-							"host": ["{{base_url}}"],
-							"path": ["situations", "1"]
-						}
-					}
-				},
-				{
-					"name": "Deletar Situation",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/situations/1",
-							"host": ["{{base_url}}"],
-							"path": ["situations", "1"]
-						}
-					}
-				}
-			]
-		},
-		{
-			"name": "Users",
-			"item": [
-				{
-					"name": "Listar Users (paginado)",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/users?page=1&limit=5",
-							"host": ["{{base_url}}"],
-							"path": ["users"],
-							"query": [
-								{ "key": "page", "value": "1" },
-								{ "key": "limit", "value": "5" }
-							]
-						}
-					}
-				},
-				{
-					"name": "Buscar User por ID",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/users/1",
-							"host": ["{{base_url}}"],
-							"path": ["users", "1"]
-						}
-					}
-				},
-				{
-					"name": "Criar User",
-					"request": {
-						"method": "POST",
-						"header": [
-							{ "key": "Content-Type", "value": "application/json" }
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"Novo Usuário\",\n    \"email\": \"novo@email.com\",\n    \"password\": \"123456\",\n    \"situationId\": 1\n}"
-						},
-						"url": {
-							"raw": "{{base_url}}/users",
-							"host": ["{{base_url}}"],
-							"path": ["users"]
-						}
-					}
-				},
-				{
-					"name": "Atualizar User",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{ "key": "Content-Type", "value": "application/json" }
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"Usuário Atualizado\",\n    \"email\": \"atualizado@email.com\",\n    \"password\": \"123456\",\n    \"situationId\": 1\n}"
-						},
-						"url": {
-							"raw": "{{base_url}}/users/1",
-							"host": ["{{base_url}}"],
-							"path": ["users", "1"]
-						}
-					}
-				},
-				{
-					"name": "Deletar User",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/users/1",
-							"host": ["{{base_url}}"],
-							"path": ["users", "1"]
-						}
-					}
-				}
-			]
-		},
-		{
-			"name": "Product Categories",
-			"item": [
-				{
-					"name": "Listar Product Categories (paginado)",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/product-categories?page=1&limit=5",
-							"host": ["{{base_url}}"],
-							"path": ["product-categories"],
-							"query": [
-								{ "key": "page", "value": "1" },
-								{ "key": "limit", "value": "5" }
-							]
-						}
-					}
-				},
-				{
-					"name": "Buscar Product Category por ID",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/product-categories/1",
-							"host": ["{{base_url}}"],
-							"path": ["product-categories", "1"]
-						}
-					}
-				},
-				{
-					"name": "Criar Product Category",
-					"request": {
-						"method": "POST",
-						"header": [
-							{ "key": "Content-Type", "value": "application/json" }
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"Nova Categoria\"\n}"
-						},
-						"url": {
-							"raw": "{{base_url}}/product-categories",
-							"host": ["{{base_url}}"],
-							"path": ["product-categories"]
-						}
-					}
-				},
-				{
-					"name": "Atualizar Product Category",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{ "key": "Content-Type", "value": "application/json" }
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"Categoria Atualizada\"\n}"
-						},
-						"url": {
-							"raw": "{{base_url}}/product-categories/1",
-							"host": ["{{base_url}}"],
-							"path": ["product-categories", "1"]
-						}
-					}
-				},
-				{
-					"name": "Deletar Product Category",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/product-categories/1",
-							"host": ["{{base_url}}"],
-							"path": ["product-categories", "1"]
-						}
-					}
-				}
-			]
-		},
-		{
-			"name": "Product Situations",
-			"item": [
-				{
-					"name": "Listar Product Situations (paginado)",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/product-situations?page=1&limit=5",
-							"host": ["{{base_url}}"],
-							"path": ["product-situations"],
-							"query": [
-								{ "key": "page", "value": "1" },
-								{ "key": "limit", "value": "5" }
-							]
-						}
-					}
-				},
-				{
-					"name": "Buscar Product Situation por ID",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/product-situations/1",
-							"host": ["{{base_url}}"],
-							"path": ["product-situations", "1"]
-						}
-					}
-				},
-				{
-					"name": "Criar Product Situation",
-					"request": {
-						"method": "POST",
-						"header": [
-							{ "key": "Content-Type", "value": "application/json" }
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"Nova Situação de Produto\"\n}"
-						},
-						"url": {
-							"raw": "{{base_url}}/product-situations",
-							"host": ["{{base_url}}"],
-							"path": ["product-situations"]
-						}
-					}
-				},
-				{
-					"name": "Atualizar Product Situation",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{ "key": "Content-Type", "value": "application/json" }
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"Situação Atualizada\"\n}"
-						},
-						"url": {
-							"raw": "{{base_url}}/product-situations/1",
-							"host": ["{{base_url}}"],
-							"path": ["product-situations", "1"]
-						}
-					}
-				},
-				{
-					"name": "Deletar Product Situation",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/product-situations/1",
-							"host": ["{{base_url}}"],
-							"path": ["product-situations", "1"]
-						}
-					}
-				}
-			]
-		},
-		{
-			"name": "Products",
-			"item": [
-				{
-					"name": "Listar Products (paginado)",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/products?page=1&limit=5",
-							"host": ["{{base_url}}"],
-							"path": ["products"],
-							"query": [
-								{ "key": "page", "value": "1" },
-								{ "key": "limit", "value": "5" }
-							]
-						}
-					}
-				},
-				{
-					"name": "Buscar Product por ID",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/products/1",
-							"host": ["{{base_url}}"],
-							"path": ["products", "1"]
-						}
-					}
-				},
-				{
-					"name": "Criar Product",
-					"request": {
-						"method": "POST",
-						"header": [
-							{ "key": "Content-Type", "value": "application/json" }
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"Novo Produto\",\n    \"productSituationId\": 1,\n    \"productCategoryId\": 1\n}"
-						},
-						"url": {
-							"raw": "{{base_url}}/products",
-							"host": ["{{base_url}}"],
-							"path": ["products"]
-						}
-					}
-				},
-				{
-					"name": "Atualizar Product",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{ "key": "Content-Type", "value": "application/json" }
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"Produto Atualizado\",\n    \"productSituationId\": 2,\n    \"productCategoryId\": 2\n}"
-						},
-						"url": {
-							"raw": "{{base_url}}/products/1",
-							"host": ["{{base_url}}"],
-							"path": ["products", "1"]
-						}
-					}
-				},
-				{
-					"name": "Deletar Product",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/products/1",
-							"host": ["{{base_url}}"],
-							"path": ["products", "1"]
-						}
-					}
-				}
-			]
-		}
-	]
+	 "item": [
+    {
+      "name": " Test Connection",
+      "item": [
+        {
+          "name": "Test API Connection",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/test-connection",
+            "description": "Verifica se a API está rodando"
+          }
+        }
+      ]
+    },
+    {
+      "name": " Auth",
+      "item": [
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var json = pm.response.json();",
+                  "if (json.user && json.user.token) {",
+                  "  pm.collectionVariables.set('token', json.user.token);",
+                  "  console.log('Token salvo automaticamente!');",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/auth",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"mateus@email.com\",\n  \"password\": \"123456\"\n}"
+            },
+            "description": "POST /api/auth — retorna token JWT. Token salvo automaticamente na variável {{token}}"
+          }
+        },
+        {
+          "name": "Validar Token",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/auth/validate-token",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "description": "GET /api/auth/validate-token — verifica se o token JWT é válido"
+          }
+        },
+        {
+          "name": "Criar Usuário (via Auth)",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/auth/new-users",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Novo Usuario\",\n  \"email\": \"novo@email.com\",\n  \"password\": \"123456\",\n  \"situationId\": 1\n}"
+            },
+            "description": "POST /api/auth/new-users — cadastro público de usuário"
+          }
+        },
+        {
+          "name": "Recuperar Senha",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/auth/recover-password",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"mateus@email.com\",\n  \"urlRecoverPassword\": \"http://localhost:3000/reset-password\"\n}"
+            },
+            "description": "POST /api/auth/recover-password — envia e-mail com link de recuperação"
+          }
+        },
+        {
+          "name": "Atualizar Senha",
+          "request": {
+            "method": "PUT",
+            "url": "{{base_url}}/auth/update-password",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"mateus@email.com\",\n  \"recoverPassword\": \"TOKEN_RECEBIDO_POR_EMAIL\",\n  \"password\": \"novaSenha123\"\n}"
+            },
+            "description": "PUT /api/auth/update-password — redefine a senha com o token recebido por e-mail"
+          }
+        }
+      ]
+    },
+    {
+      "name": " Users",
+      "item": [
+        {
+          "name": "Listar Usuários",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/users?page=1&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["users"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "10" }
+              ]
+            },
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "description": "GET /api/users — lista usuários com paginação "
+          }
+        },
+        {
+          "name": "Buscar Usuário por ID",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/users/1",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "description": "GET /api/users/:id "
+          }
+        },
+        {
+          "name": "Criar Usuário",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/users",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Carlos Souza\",\n  \"email\": \"carlos@email.com\",\n  \"password\": \"123456\",\n  \"situationId\": 1\n}"
+            },
+            "description": "POST /api/users "
+          }
+        },
+        {
+          "name": "Atualizar Usuário",
+          "request": {
+            "method": "PUT",
+            "url": "{{base_url}}/users/1",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Carlos Atualizado\",\n  \"situationId\": 2\n}"
+            },
+            "description": "PUT /api/users/:id "
+          }
+        },
+        {
+          "name": "Deletar Usuário",
+          "request": {
+            "method": "DELETE",
+            "url": "{{base_url}}/users/1",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "description": "DELETE /api/users/:id "
+          }
+        }
+      ]
+    },
+    {
+      "name": " Situations",
+      "item": [
+        {
+          "name": "Listar Situações",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/situations?page=1&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["situations"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "10" }
+              ]
+            },
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "description": "GET /api/situations "
+          }
+        },
+        {
+          "name": "Buscar Situação por ID",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/situations/1",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "description": "GET /api/situations/:id "
+          }
+        },
+        {
+          "name": "Criar Situação",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/situations",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nameSituation\": \"Ativo\"\n}"
+            },
+            "description": "POST /api/situations "
+          }
+        },
+        {
+          "name": "Atualizar Situação",
+          "request": {
+            "method": "PUT",
+            "url": "{{base_url}}/situations/1",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nameSituation\": \"Inativo\"\n}"
+            },
+            "description": "PUT /api/situations/:id "
+          }
+        },
+        {
+          "name": "Deletar Situação",
+          "request": {
+            "method": "DELETE",
+            "url": "{{base_url}}/situations/1",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "description": "DELETE /api/situations/:id "
+          }
+        }
+      ]
+    },
+    {
+      "name": " Products",
+      "item": [
+        {
+          "name": "Listar Produtos",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/products?page=1&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["products"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "10" }
+              ]
+            },
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "description": "GET /api/products "
+          }
+        },
+        {
+          "name": "Buscar Produto por ID",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/products/1",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "description": "GET /api/products/:id "
+          }
+        },
+        {
+          "name": "Criar Produto",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/products",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Notebook Dell\",\n  \"productSituationId\": 1,\n  \"productCategoryId\": 1\n}"
+            },
+            "description": "POST /api/products — slug gerado automaticamente "
+          }
+        },
+        {
+          "name": "Atualizar Produto",
+          "request": {
+            "method": "PUT",
+            "url": "{{base_url}}/products/1",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Notebook Dell Atualizado\",\n  \"productSituationId\": 2,\n  \"productCategoryId\": 1\n}"
+            },
+            "description": "PUT /api/products/:id "
+          }
+        },
+        {
+          "name": "Deletar Produto",
+          "request": {
+            "method": "DELETE",
+            "url": "{{base_url}}/products/1",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "description": "DELETE /api/products/:id "
+          }
+        }
+      ]
+    },
+    {
+      "name": " Product Categories",
+      "item": [
+        {
+          "name": "Listar Categorias",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/product-categories?page=1&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["product-categories"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "10" }
+              ]
+            },
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "description": "GET /api/product-categories "
+          }
+        },
+        {
+          "name": "Buscar Categoria por ID",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/product-categories/1",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "description": "GET /api/product-categories/:id "
+          }
+        },
+        {
+          "name": "Criar Categoria",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/product-categories",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Eletrônicos\"\n}"
+            },
+            "description": "POST /api/product-categories "
+          }
+        },
+        {
+          "name": "Atualizar Categoria",
+          "request": {
+            "method": "PUT",
+            "url": "{{base_url}}/product-categories/1",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Eletrônicos Atualizados\"\n}"
+            },
+            "description": "PUT /api/product-categories/:id "
+          }
+        },
+        {
+          "name": "Deletar Categoria",
+          "request": {
+            "method": "DELETE",
+            "url": "{{base_url}}/product-categories/1",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "description": "DELETE /api/product-categories/:id "
+          }
+        }
+      ]
+    },
+    {
+      "name": " Product Situations",
+      "item": [
+        {
+          "name": "Listar Situações de Produto",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/product-situations?page=1&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["product-situations"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "10" }
+              ]
+            },
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "description": "GET /api/product-situations "
+          }
+        },
+        {
+          "name": "Buscar Situação de Produto por ID",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/product-situations/1",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "description": "GET /api/product-situations/:id "
+          }
+        },
+        {
+          "name": "Criar Situação de Produto",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/product-situations",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Disponível\"\n}"
+            },
+            "description": "POST /api/product-situations "
+          }
+        },
+        {
+          "name": "Atualizar Situação de Produto",
+          "request": {
+            "method": "PUT",
+            "url": "{{base_url}}/product-situations/1",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Indisponível\"\n}"
+            },
+            "description": "PUT /api/product-situations/:id "
+          }
+        },
+        {
+          "name": "Deletar Situação de Produto",
+          "request": {
+            "method": "DELETE",
+            "url": "{{base_url}}/product-situations/1",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "description": "DELETE /api/product-situations/:id "
+          }
+        }
+      ]
+    }
+  ]
 }
